@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { createUmi } from "@metaplex-foundation/umi-bundle-defaults";
 import { mplCandyMachine } from "@metaplex-foundation/mpl-candy-machine";
-import { generateSigner, percentAmount } from "@metaplex-foundation/umi";
+import { generateSigner, percentAmount, some, none } from "@metaplex-foundation/umi";
 import {
   TokenStandard,
   createNft,
@@ -31,11 +31,20 @@ function App() {
   };
 
   const candyMachineSettings = {
+    hiddenSetting: none,
+    configLineSettings: some({
+      prefixName: 'Consumables #$ID+1$', // can i remove name from the create token now ?
+      nameLength: 0,
+      prefixUri: 'https://arweave.net/',
+      uriLength: 43,
+      isSequential: true,
+    }),
     collectionMint: collectionMint.publicKey,
     collectionUpdateAuthority,
     tokenStandard: TokenStandard.NonFungible,
     symbol: "LUCID",
     maxEditionSupply: 10,
+    itemsAvailable: 10,
     isMutable: true,
   };
 
