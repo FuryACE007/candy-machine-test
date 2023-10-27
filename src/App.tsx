@@ -13,6 +13,9 @@ function App() {
 
   const umi = createUmi(rpcEndpoint).use(mplCandyMachine());
 
+  const collectionUpdateAuthority = generateSigner(umi);
+
+
   const candyMachineSettings = {
     tokenStandard: TokenStandard.NonFungible,
     symbol: 'LUCID',
