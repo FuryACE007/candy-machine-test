@@ -9,7 +9,6 @@ import {
   percentAmount,
   some,
   none,
-  generatedSignerIdentity,
 } from "@metaplex-foundation/umi";
 import {
   TokenStandard,
