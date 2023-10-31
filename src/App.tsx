@@ -9,6 +9,7 @@ import {
   percentAmount,
   some,
   none,
+  generatedSignerIdentity,
 } from "@metaplex-foundation/umi";
 import {
   TokenStandard,
@@ -40,7 +41,7 @@ function App() {
     }).sendAndConfirm(umi);
   };
   console.log(collectionMint);
-  
+
   createNftCollection();
 
   // const candyMachineSettings = {
@@ -92,7 +93,6 @@ function App() {
     candyObj.sendAndConfirm(umi);
 
     console.log(candyMachine, candyObj);
-    
   };
 
   createCandyMachine();
