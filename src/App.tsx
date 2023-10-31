@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { createUmi } from "@metaplex-foundation/umi-bundle-defaults";
 import {
   mplCandyMachine,
@@ -14,9 +14,37 @@ import {
   TokenStandard,
   createNft,
 } from "@metaplex-foundation/mpl-token-metadata";
+import { clusterApiUrl } from "@solana/web3.js";
+import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
+import {
+  PhantomWalletAdapter,
+  SolflareWalletAdapter,
+  LedgerWalletAdapter,
+  TorusWalletAdapter,
+} from "@solana/wallet-adapter-wallets";
+import {
+  ConnectionProvider,
+  WalletProvider,
+} from "@solana/wallet-adapter-react";
+import {
+  WalletModalProvider,
+  WalletMultiButton,
+} from "@solana/wallet-adapter-react-ui";
+
 import "./App.css";
+require("@solana/wallet-adapter-react-ui/styles.css");
 
 function App() {
+  const solNetwork = WalletAdapterNetwork.Devnet;
+  const wallets = useMemo(
+    () => [
+      new PhantomWalletAdapter(),
+      new SolflareWalletAdapter(),
+      new LedgerWalletAdapter(),
+      new TorusWalletAdapter(),
+    ],
+    [solNetwork]
+  );
   const rpcEndpoint =
     "https://solana-devnet.g.alchemy.com/v2/" + process.env.REACT_APP_API_KEY;
   if (!rpcEndpoint) {
@@ -97,9 +125,18 @@ function App() {
   createCandyMachine();
 
   return (
-    <div className="App">
-      <h1>Hellooo</h1>
-    </div>
+    <ConnectionProvider endpoint={rpcEndpoint}>
+      <WalletProvider wallets={wallets}>
+        <WalletModalProvider>
+          <div className="App">
+            <h1>Hellooo</h1>
+            <div>
+              <WalletMultiButton />
+            </div>
+          </div>
+        </WalletModalProvider>
+      </WalletProvider>
+    </ConnectionProvider>
   );
 }
 
