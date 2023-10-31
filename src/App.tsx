@@ -15,12 +15,7 @@ import {
   createNft,
 } from "@metaplex-foundation/mpl-token-metadata";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
-import {
-  PhantomWalletAdapter,
-  SolflareWalletAdapter,
-  LedgerWalletAdapter,
-  TorusWalletAdapter,
-} from "@solana/wallet-adapter-wallets";
+import { PhantomWalletAdapter } from "@solana/wallet-adapter-wallets";
 import {
   ConnectionProvider,
   WalletProvider,
@@ -35,15 +30,7 @@ require("@solana/wallet-adapter-react-ui/styles.css");
 
 function App() {
   const solNetwork = WalletAdapterNetwork.Devnet;
-  const wallets = useMemo(
-    () => [
-      new PhantomWalletAdapter(),
-      new SolflareWalletAdapter(),
-      new LedgerWalletAdapter(),
-      new TorusWalletAdapter(),
-    ],
-    [solNetwork]
-  );
+  const wallets = useMemo(() => [new PhantomWalletAdapter()], [solNetwork]);
   const rpcEndpoint =
     "https://solana-devnet.g.alchemy.com/v2/" + process.env.REACT_APP_API_KEY;
   if (!rpcEndpoint) {
