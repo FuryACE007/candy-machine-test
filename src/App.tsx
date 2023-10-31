@@ -70,28 +70,6 @@ function App() {
 
   createNftCollection();
 
-  // const candyMachineSettings = {
-  //   hiddenSetting: none,
-  //   collectionMint: collectionMint.publicKey,
-  //   collectionUpdateAuthority,
-  //   tokenStandard: TokenStandard.NonFungible,
-  //   symbol: "LUCID",
-  //   itemsAvailable: 10,
-  //   creators: [
-  //     {
-  //       address: umi.identity.publicKey,
-  //       verified: true,
-  //       percentShare: 100,
-  //     },
-  //   ],
-  //   configLineSettings: some({
-  //     prefixName: "Consumables #$ID+1$", // can i remove name from the create token now ?
-  //     nameLength: 0,
-  //     prefixUri: "",
-  //     uriLength: 200,
-  //     isSequential: false,
-  //   }),
-  // };
   const candyMachine = generateSigner(umi); // create a candy machine account
   const createCandyMachine = async () => {
     const candyObj = await create(umi, {
