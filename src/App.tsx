@@ -19,6 +19,7 @@ import { PhantomWalletAdapter } from "@solana/wallet-adapter-wallets";
 import {
   ConnectionProvider,
   WalletProvider,
+  useWallet,
 } from "@solana/wallet-adapter-react";
 import {
   WalletModalProvider,
@@ -31,12 +32,18 @@ require("@solana/wallet-adapter-react-ui/styles.css");
 function App() {
   const solNetwork = WalletAdapterNetwork.Devnet;
   const wallets = useMemo(() => [new PhantomWalletAdapter()], [solNetwork]);
+  const wallet = useWallet();
   const rpcEndpoint =
     "https://solana-devnet.g.alchemy.com/v2/" + process.env.REACT_APP_API_KEY;
   if (!rpcEndpoint) {
     return <div>Error</div>;
   }
-
+  if(wallet.connected)
+    console.log("Wallet object:" + wallet.publicKey);
+  else  
+    console.log("Wallet not connected");
+    
+  
   const umi = createUmi(rpcEndpoint).use(mplCandyMachine());
 
   // Create the Collection NFT.
@@ -53,7 +60,7 @@ function App() {
       sellerFeeBasisPoints: percentAmount(1.0, 2), // royality fee of 1.00 %
     }).sendAndConfirm(umi);
   };
-  console.log(collectionMint);
+  console.log("Collection2mint"+collectionMint);
 
   createNftCollection();
 
@@ -83,7 +90,7 @@ function App() {
     });
     candyObj.sendAndConfirm(umi);
 
-    console.log(candyMachine, candyObj);
+    // console.log(candyMachine, candyObj);
   };
 
   createCandyMachine();
