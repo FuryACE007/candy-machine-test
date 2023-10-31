@@ -14,7 +14,6 @@ import {
   TokenStandard,
   createNft,
 } from "@metaplex-foundation/mpl-token-metadata";
-import { clusterApiUrl } from "@solana/web3.js";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import {
   PhantomWalletAdapter,
