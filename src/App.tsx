@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import { createUmi } from "@metaplex-foundation/umi-bundle-defaults";
+import { createSignerFromWalletAdapter } from "@metaplex-foundation/umi-signer-wallet-adapters";
 import {
   mplCandyMachine,
   create,
@@ -9,6 +10,7 @@ import {
   percentAmount,
   some,
   none,
+  signerIdentity,
 } from "@metaplex-foundation/umi";
 import {
   TokenStandard,
@@ -38,13 +40,14 @@ function App() {
   if (!rpcEndpoint) {
     return <div>Error</div>;
   }
-  if(wallet.connected)
-    console.log("Wallet object:" + wallet.publicKey);
-  else  
-    console.log("Wallet not connected");
-    
-  
-  const umi = createUmi(rpcEndpoint).use(mplCandyMachine());
+  if (wallet.connected) console.log("Wallet object:" + wallet.publicKey);
+  else {
+    wallet.connect();
+  }
+
+  const umi = createUmi(rpcEndpoint)
+    .use(signerIdentity(createSignerFromWalletAdapter(wallet)))
+    .use(mplCandyMachine());
 
   // Create the Collection NFT.
   const collectionUpdateAuthority = generateSigner(umi);
@@ -60,7 +63,7 @@ function App() {
       sellerFeeBasisPoints: percentAmount(1.0, 2), // royality fee of 1.00 %
     }).sendAndConfirm(umi);
   };
-  console.log("Collection2mint"+collectionMint);
+  console.log("Collection2mint" + collectionMint);
 
   createNftCollection();
 
